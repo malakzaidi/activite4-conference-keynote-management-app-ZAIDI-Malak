@@ -2,35 +2,54 @@ package com.conference.keynoteservice.web;
 
 import com.conference.keynoteservice.dtos.KeynoteDTO;
 import com.conference.keynoteservice.services.KeynoteService;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/api/keynotes")
-public class keynoteController {
-    private KeynoteService srv;
-    public keynoteController(KeynoteService srv){
-        this.srv = srv;
+public class KeynoteController {
+
+        private final KeynoteService keynoteService;
+
+        public KeynoteController(KeynoteService keynoteService) {
+            this.keynoteService = keynoteService;
+        }
+
+        // GET all keynotes
+        @GetMapping
+        public ResponseEntity<List<KeynoteDTO>> getAllKeynotes() {
+            return ResponseEntity.ok(keynoteService.findAll());
+        }
+
+        //  GET keynote by ID
+        @GetMapping("/{id}")
+        public ResponseEntity<KeynoteDTO> getKeynoteById(@PathVariable UUID id) {
+            return ResponseEntity.ok(keynoteService.findById(id));
+        }
+
+        //  CREATE a new keynote
+        @PostMapping
+        public ResponseEntity<KeynoteDTO> createKeynote(@RequestBody KeynoteDTO keynoteDTO) {
+            return ResponseEntity.ok(keynoteService.create(keynoteDTO));
+        }
+
+        //  UPDATE a keynote
+        @PutMapping("/{id}")
+        public ResponseEntity<KeynoteDTO> updateKeynote(@PathVariable UUID id, @RequestBody KeynoteDTO keynoteDTO) {
+            return ResponseEntity.ok(keynoteService.update(id, keynoteDTO));
+        }
+
+        //  DELETE a keynote
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deleteKeynote(@PathVariable UUID id) {
+            keynoteService.delete(id);
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @GetMapping
-    public List<KeynoteDTO> all() { return srv.findAll(); }
 
-    @GetMapping("/{id}")
-    public KeynoteDTO byId(@PathVariable UUID id) { return srv.findById(id); }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public KeynoteDTO create(@RequestBody KeynoteDTO dto) { return srv.create(dto); }
-
-    @PutMapping("/{id}")
-    public KeynoteDTO update(@PathVariable UUID id, @RequestBody KeynoteDTO dto) { return srv.update(id, dto); }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID id) { srv.delete(id); }
-}
 

@@ -10,46 +10,51 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+    @Service
+    @Transactional
+    public class KeynoteService {
+        private final KeynoteRepository repo;
+        private final KeynoteMapper mapper;
 
-@Service
-@Transactional
-public class KeynoteService {
-    private KeynoteRepository repo;
-    private KeynoteMapper mapper;
+        public KeynoteService(KeynoteRepository repo, KeynoteMapper mapper) {
+            this.repo = repo;
+            this.mapper = mapper;
+        }
 
-    public KeynoteService(KeynoteRepository repo, KeynoteMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
+        public List<KeynoteDTO> findAll() {
+            return repo.findAll().stream()
+                    .map(mapper::toDto)
+                    .toList();
+        }
 
-    public List<KeynoteDTO> findAll() {
-        return repo.findAll().stream().map(mapper::toDto).toList();
-    }
+        public KeynoteDTO findById(UUID id) {
+            Keynote k = repo.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Keynote not found"));
+            return mapper.toDto(k);
+        }
 
-    public KeynoteDTO findById(UUID id) {
-        var k = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found"));
-        return mapper.toDto(k);
-    }
+        public KeynoteDTO create(KeynoteDTO dto) {
+            Keynote entity = mapper.toEntity(dto);
+            entity.setId(null); // laisse JPA générer l'ID
+            Keynote saved = repo.save(entity);
+            return mapper.toDto(saved);
+        }
 
-    public KeynoteDTO create(KeynoteDTO dto) {
-        Keynote entity = mapper.toEntity(dto);
-        entity.setId(null);
-        var saved = repo.save(entity);
-        return mapper.toDto(saved);
-    }
+        public KeynoteDTO update(UUID id, KeynoteDTO dto) {
+            Keynote existing = repo.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Keynote not found"));
 
-    public KeynoteDTO update(UUID id, KeynoteDTO dto) {
-        var existing = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found"));
-        existing.setNom(dto.nom());
-        existing.setPrenom(dto.prenom());
-        existing.setEmail(dto.email());
-        existing.setFonction(dto.fonction());
-        return mapper.toDto(repo.save(existing));
-    }
+            existing.setNom(dto.getNom());
+            existing.setPrenom(dto.getPrenom());
+            existing.setEmail(dto.getEmail());
+            existing.setFonction(dto.getFonction());
 
-    public void delete(UUID id) {
-        repo.deleteById(id);
-    }
+            return mapper.toDto(repo.save(existing));
+        }
+
+        public void delete(UUID id) {
+            repo.deleteById(id);
+        }
 
 
 
