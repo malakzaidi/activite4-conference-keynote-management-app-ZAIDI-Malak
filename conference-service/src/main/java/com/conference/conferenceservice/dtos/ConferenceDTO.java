@@ -1,6 +1,5 @@
 package com.conference.conferenceservice.dtos;
 
-import com.conference.conferenceservice.entities.Review;
 import com.conference.conferenceservice.enums.TypeConference;
 import lombok.*;
 
@@ -12,8 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 public class ConferenceDTO {
     private UUID id;
     private String titre;
@@ -22,5 +19,5 @@ public class ConferenceDTO {
     private int dureeMinutes;
     private int nombreInscrits;
     private double score;
-    private List<Review> reviews;
+    private List<ReviewDTO> reviews;
 }

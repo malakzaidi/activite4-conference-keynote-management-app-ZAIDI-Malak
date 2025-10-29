@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 public class Conference {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String titre;
     @Enumerated(EnumType.STRING)

@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter
-@Setter @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private LocalDateTime date;
     private String texte;
