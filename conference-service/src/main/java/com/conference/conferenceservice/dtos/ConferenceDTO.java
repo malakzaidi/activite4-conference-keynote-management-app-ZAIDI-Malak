@@ -1,6 +1,6 @@
 package com.conference.conferenceservice.dtos;
-
 import com.conference.conferenceservice.enums.TypeConference;
+import com.conference.conferenceservice.models.KeynoteDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,5 +19,7 @@ public class ConferenceDTO {
     private int dureeMinutes;
     private int nombreInscrits;
     private double score;
+    private UUID keynoteId;
+    private KeynoteDTO keynote;
     private List<ReviewDTO> reviews;
 }

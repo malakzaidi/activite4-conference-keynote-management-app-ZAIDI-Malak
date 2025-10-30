@@ -1,6 +1,7 @@
 package com.conference.conferenceservice.web;
 
 import com.conference.conferenceservice.dtos.ConferenceDTO;
+import com.conference.conferenceservice.models.KeynoteDTO;
 import com.conference.conferenceservice.services.ConferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,33 +19,37 @@ public class ConferenceController {
     private final ConferenceService service;
 
     @PostMapping
-    public ResponseEntity<ConferenceDTO> create(@RequestBody ConferenceDTO dto) {
-        ConferenceDTO saved = service.createConference(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<ConferenceDTO> createConference(@RequestBody ConferenceDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.createConference(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConferenceDTO> update(@PathVariable UUID id,
-                                                @RequestBody ConferenceDTO dto) {
-        ConferenceDTO updated = service.updateConference(id, dto);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<ConferenceDTO> updateConference(@PathVariable UUID id,
+                                                          @RequestBody ConferenceDTO dto) {
+        return ResponseEntity.ok(service.updateConference(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteConference(@PathVariable UUID id) {
         service.deleteConference(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConferenceDTO> get(@PathVariable UUID id) {
-        ConferenceDTO dto = service.getConference(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<ConferenceDTO> getConference(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.getConference(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ConferenceDTO>> getAll() {
-        List<ConferenceDTO> conferences = service.getAllConferences();
-        return ResponseEntity.ok(conferences);
+    public ResponseEntity<List<ConferenceDTO>> getAllConferences() {
+        return ResponseEntity.ok(service.getAllConferences());
     }
+
+    @GetMapping("/keynote/{keynoteId}")
+    public ResponseEntity<List<ConferenceDTO>> getConferencesByKeynote(@PathVariable UUID keynoteId) {
+        return ResponseEntity.ok(service.getConferencesByKeynote(keynoteId));
+    }
+
+
 }
