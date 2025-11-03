@@ -1,5 +1,6 @@
 package com.conference.conferenceservice;
 
+import com.conference.conferenceservice.config.CustomerConfigParams;
 import com.conference.conferenceservice.dtos.ConferenceDTO;
 import com.conference.conferenceservice.dtos.ReviewDTO;
 import com.conference.conferenceservice.enums.TypeConference;
@@ -8,6 +9,7 @@ import com.conference.conferenceservice.services.ReviewService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+@EnableConfigurationProperties(CustomerConfigParams.class)
 public class ConferenceServiceApplication {
 
     public static void main(String[] args) {
