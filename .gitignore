@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/angular-front-app/node_modules
+.mvn
