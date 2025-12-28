@@ -1,14 +1,18 @@
-import { Keynote } from './keynote.model';
-
 export interface Conference {
-  id: string;
-  titre: string;
-  type: string;
+  id?: number;
+  title: string;
+  description: string;
   date: string;
-  dureeMinutes: number;
-  nombreInscrits: number;
-  score: number;
-  keynoteId: string;
-  keynote: Keynote;
-  reviews: any[];
+  location: string;
+  typeConference: string;
+  keynotes?: Keynote[];
+}
+
+export interface Keynote {
+  id?: number;
+  title: string;
+  speaker: string;
+  duration: number;
+  description: string;
+  conferenceId?: number;
 }

@@ -7,16 +7,20 @@ import { Keynote } from '../models/keynote.model';
   providedIn: 'root'
 })
 export class KeynoteService {
-  private apiUrl = 'http://localhost:8888/KEYNOTE-SERVICE/api/keynotes';
+  private apiUrl = 'http://localhost:8085/api/keynotes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllKeynotes(): Observable<Keynote[]> {
     return this.http.get<Keynote[]>(this.apiUrl);
   }
 
-  getKeynote(id: string): Observable<Keynote> {
+  getKeynoteById(id: string): Observable<Keynote> {
     return this.http.get<Keynote>(`${this.apiUrl}/${id}`);
+  }
+
+  getKeynotesByConference(conferenceId: string): Observable<Keynote[]> {
+    return this.http.get<Keynote[]>(`${this.apiUrl}/conference/${conferenceId}`);
   }
 
   createKeynote(keynote: Keynote): Observable<Keynote> {

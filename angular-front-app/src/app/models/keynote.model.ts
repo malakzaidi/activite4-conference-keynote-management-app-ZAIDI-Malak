@@ -1,7 +1,8 @@
 export interface Keynote {
-  id: string;
-  nom: string;
-  prenom: string;
-  email: string;
-  fonction: string;
+  id?: number;
+  title: string;
+  speaker: string;
+  duration: number;
+  description: string;
+  conferenceId?: number;
 }

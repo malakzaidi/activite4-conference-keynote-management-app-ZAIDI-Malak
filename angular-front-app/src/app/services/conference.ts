@@ -7,15 +7,15 @@ import { Conference } from '../models/conference.model';
   providedIn: 'root'
 })
 export class ConferenceService {
-  private apiUrl = 'http://localhost:8888/CONFERENCE-SERVICE/api/conferences';
+  private apiUrl = 'http://localhost:8086/api/conferences';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllConferences(): Observable<Conference[]> {
     return this.http.get<Conference[]>(this.apiUrl);
   }
 
-  getConference(id: string): Observable<Conference> {
+  getConferenceById(id: string): Observable<Conference> {
     return this.http.get<Conference>(`${this.apiUrl}/${id}`);
   }
 

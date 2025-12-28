@@ -1,2 +1,122 @@
-<h2>Conferences</h2>
-<p>Here you can manage your conferences.</p>
+<div class="conference-container">
+  <div class="header">
+    <h1>Gestion des Conférences</h1>
+    <button class="btn btn-primary" (click)="toggleForm()">
+      {{ showForm ? 'Annuler' : '+ Ajouter une conférence' }}
+    </button>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Formulaire -->
+  <div class="form-card" *ngIf="showForm">
+    <h2>{{ editingId ? 'Modifier' : 'Nouvelle' }} Conférence</h2>
+    <form (ngSubmit)="saveConference()">
+      <div class="form-group">
+        <label for="title">Titre *</label>
+        <input
+          type="text"
+          id="title"
+          [(ngModel)]="newConference.title"
+          name="title"
+          class="form-control"
+          placeholder="Titre de la conférence"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="newConference.description"
+          name="description"
+          class="form-control"
+          placeholder="Description"
+          rows="3"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Date *</label>
+          <input
+            type="date"
+            id="date"
+            [(ngModel)]="newConference.date"
+            name="date"
+            class="form-control"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Localisation</label>
+          <input
+            type="text"
+            id="location"
+            [(ngModel)]="newConference.location"
+            name="location"
+            class="form-control"
+            placeholder="Lieu">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type de conférence</label>
+        <select
+          id="type"
+          [(ngModel)]="newConference.typeConference"
+          name="typeConference"
+          class="form-control">
+          <option value="">-- Sélectionner --</option>
+          <option value="WORKSHOP">Workshop</option>
+          <option value="SEMINAR">Séminaire</option>
+          <option value="CONFERENCE">Conférence</option>
+          <option value="KEYNOTE">Keynote</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">
+          {{ editingId ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="toggleForm()">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Liste des conférences -->
+  <div class="loading" *ngIf="loading">
+    <p>Chargement...</p>
+  </div>
+
+  <div class="conferences-list" *ngIf="!loading && conferences.length > 0">
+    <h2>Conférences ({{ conferences.length }})</h2>
+    <div class="conference-grid">
+      <div class="conference-card" *ngFor="let conf of conferences">
+        <div class="card-header">
+          <h3>{{ conf.title }}</h3>
+          <span class="badge">{{ conf.typeConference }}</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Date:</strong> {{ conf.date }}</p>
+          <p *ngIf="conf.location"><strong>Lieu:</strong> {{ conf.location }}</p>
+          <p *ngIf="conf.description" class="description">{{ conf.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-warning" (click)="editConference(conf)">
+            Modifier
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteConference(conf.id || 0)">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && conferences.length === 0">
+    <p>Aucune conférence pour le moment. Créez-en une!</p>
+  </div>
+</div>

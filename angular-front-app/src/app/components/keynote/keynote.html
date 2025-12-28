@@ -1,2 +1,118 @@
-<h2>Keynotes</h2>
-<p>Here you can manage your keynotes.</p>
+<div class="keynote-container">
+  <div class="header">
+    <h1>Gestion des Keynotes</h1>
+    <button class="btn btn-primary" (click)="toggleForm()">
+      {{ showForm ? 'Annuler' : '+ Ajouter une keynote' }}
+    </button>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Formulaire -->
+  <div class="form-card" *ngIf="showForm">
+    <h2>{{ editingId ? 'Modifier' : 'Nouvelle' }} Keynote</h2>
+    <form (ngSubmit)="saveKeynote()">
+      <div class="form-group">
+        <label for="title">Titre *</label>
+        <input
+          type="text"
+          id="title"
+          [(ngModel)]="newKeynote.title"
+          name="title"
+          class="form-control"
+          placeholder="Titre de la keynote"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="speaker">Présentateur *</label>
+        <input
+          type="text"
+          id="speaker"
+          [(ngModel)]="newKeynote.speaker"
+          name="speaker"
+          class="form-control"
+          placeholder="Nom du présentateur"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="newKeynote.description"
+          name="description"
+          class="form-control"
+          placeholder="Description"
+          rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Durée (minutes)</label>
+        <input
+          type="number"
+          id="duration"
+          [(ngModel)]="newKeynote.duration"
+          name="duration"
+          class="form-control"
+          min="0"
+          placeholder="Durée en minutes">
+      </div>
+
+      <div class="form-group">
+        <label for="conferenceId">ID Conférence</label>
+        <input
+          type="number"
+          id="conferenceId"
+          [(ngModel)]="newKeynote.conferenceId"
+          name="conferenceId"
+          class="form-control"
+          placeholder="ID de la conférence associée">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">
+          {{ editingId ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="toggleForm()">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Liste des keynotes -->
+  <div class="loading" *ngIf="loading">
+    <p>Chargement...</p>
+  </div>
+
+  <div class="keynotes-list" *ngIf="!loading && keynotes.length > 0">
+    <h2>Keynotes ({{ keynotes.length }})</h2>
+    <div class="keynote-grid">
+      <div class="keynote-card" *ngFor="let key of keynotes">
+        <div class="card-header">
+          <h3>{{ key.title }}</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Présentateur:</strong> {{ key.speaker }}</p>
+          <p *ngIf="key.duration"><strong>Durée:</strong> {{ key.duration }} minutes</p>
+          <p *ngIf="key.conferenceId"><strong>Conférence ID:</strong> {{ key.conferenceId }}</p>
+          <p *ngIf="key.description" class="description">{{ key.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-warning" (click)="editKeynote(key)">
+            Modifier
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteKeynote(key.id || 0)">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && keynotes.length === 0">
+    <p>Aucune keynote pour le moment. Créez-en une!</p>
+  </div>
+</div>

@@ -1,16 +1,32 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import {KeynoteComponent} from '../components/keynote/keynote';
+import {KeynoteService} from './keynote';
+import {ConferenceService} from './conference';
 
-import { KeynoteService } from './keynote';
 
-describe('KeynoteService', () => {
-  let service: KeynoteService;
+describe('KeynoteComponent', () => {
+  let component: KeynoteComponent;
+  let fixture: ComponentFixture<KeynoteComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(KeynoteService);
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [KeynoteComponent, HttpClientTestingModule, FormsModule],
+      providers: [KeynoteService, ConferenceService]
+    })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(KeynoteComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should load keynotes on init', () => {
+    expect(component.keynotes).toBeDefined();
   });
 });
