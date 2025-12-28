@@ -43,6 +43,23 @@
 
 <img width="1074" height="757" alt="image" src="https://github.com/user-attachments/assets/776979d8-5d32-4849-a0d2-5b0826265e9a" />
 
+- Consultation des conférences par leur Id : 
+
+<img width="1347" height="800" alt="image" src="https://github.com/user-attachments/assets/b5b38593-0be1-4adf-b7cb-f6ded16861e5" />
+
+- Consultation des reviews :
+  
+<img width="1062" height="701" alt="image" src="https://github.com/user-attachments/assets/8fb25354-5996-43c5-91c2-64392377e92e" />
+
+- Test de la communication Feign :
+   - " Consultation des reviews des conférences ":
+      <img width="1265" height="520" alt="image" src="https://github.com/user-attachments/assets/3ac1057a-54b0-4b84-bb26-03aadc9e2bef" />
+   - " Consultation des conférences selon  le keynote"
+      <img width="1247" height="273" alt="image" src="https://github.com/user-attachments/assets/2371d09f-a972-4e85-b563-1cbe4ffd1551" />
+
+
+
+
 
 
 
