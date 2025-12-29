@@ -1,3 +1,43 @@
+Architecture de l'activité :
+
+<img width="1034" height="645" alt="image" src="https://github.com/user-attachments/assets/a3bc5c95-1849-40ba-a9d6-af0ca37165e2" />
+
+
+Gestion des conférences :
+
+- Consulter une conférence :
+
+<img width="1887" height="889" alt="image" src="https://github.com/user-attachments/assets/8d7be721-4650-43b7-bffb-1a18c0036d26" />
+
+- Ajouter une conférence :
+
+<img width="1915" height="881" alt="image" src="https://github.com/user-attachments/assets/f2124af7-d3eb-4562-a6f1-58e24d7d0093" />
+
+- Modifier une conférence :
+
+<img width="1548" height="907" alt="image" src="https://github.com/user-attachments/assets/f9d1cbc0-9b7c-4998-b44c-65979e8d3f99" />
+
+
+Gestion des Keynotes:
+
+- Consulter Keynotes :
+
+<img width="1909" height="854" alt="image" src="https://github.com/user-attachments/assets/e27446da-1c39-4d59-b743-43f5711c4294" />
+
+- Créer Keynotes :
+
+<img width="1528" height="735" alt="image" src="https://github.com/user-attachments/assets/fe6fd8e3-23cc-4935-9176-efaf1c350e9c" />
+
+
+- Modifier ou supprimer keynote :
+
+<img width="1530" height="870" alt="image" src="https://github.com/user-attachments/assets/3e357dfe-e57e-42dd-9e0a-a563524a4d7f" />
+
+<img width="1469" height="742" alt="image" src="https://github.com/user-attachments/assets/6a36bfb0-c754-4045-946e-579686e2124e" />
+
+
+
+
 
 <img width="1884" height="879" alt="Screenshot 2025-10-29 021710" src="https://github.com/user-attachments/assets/c9b95363-1552-4281-9eb6-fe58c06bbd54" />
 
