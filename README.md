@@ -2,6 +2,9 @@ Architecture de l'activité :
 
 <img width="1031" height="698" alt="image" src="https://github.com/user-attachments/assets/b78427c8-011e-45ac-ae0f-4cfb6bfb229b" />
 
+Login via Keyclock :
+
+<img width="930" height="472" alt="Screenshot 2025-12-29 015019" src="https://github.com/user-attachments/assets/3647f17e-b1ed-4542-9e4d-b87a1396c9f3" />
 
 Gestion des conférences :
 
@@ -16,7 +19,6 @@ Gestion des conférences :
 - Modifier une conférence :
 
 <img width="1548" height="907" alt="image" src="https://github.com/user-attachments/assets/f9d1cbc0-9b7c-4998-b44c-65979e8d3f99" />
-
 
 Gestion des Keynotes:
 
