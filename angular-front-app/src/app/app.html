@@ -5,12 +5,22 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/conferences" routerLinkActive="active">Conferences</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/keynotes" routerLinkActive="active">Keynotes</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <span class="navbar-text me-3">{{ username }}</span>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light" (click)="logout()" *ngIf="isLoggedIn">
+            Logout
+          </button>
         </li>
       </ul>
     </div>
@@ -20,3 +30,4 @@
 <div class="container mt-4">
   <router-outlet></router-outlet>
 </div>
+

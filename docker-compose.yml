@@ -1,0 +1,152 @@
+
+
+services:
+  # Keycloak - OAuth2/OIDC Authorization Server
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak-server
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    command: start-dev
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 15s
+      timeout: 2s
+      retries: 10
+      start_period: 40s
+
+  # Eureka Discovery Service
+  discovery-service:
+    build: ./discovery-service
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+
+  # Config Service
+  config-service:
+    build: ./config-service
+    container_name: config-service
+    ports:
+      - "8888:8888"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discovery-service:8761/eureka
+      - SPRING_CLOUD_CONFIG_ENABLED=false
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+
+  # API Gateway Service
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT=8081
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discovery-service:8761/eureka
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/conference-realm
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID=gateway-client
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_SECRET=your-client-secret
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/conference-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/conference-realm/protocol/openid-connect/certs
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+
+  # Conference Service
+  conference-service:
+    build: ./conference-service
+    container_name: conference-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT=8086
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discovery-service:8761/eureka
+      - KEYCLOAK_REALM=conference-realm
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth
+      - KEYCLOAK_RESOURCE=conference-service
+      - KEYCLOAK_CREDENTIALS_SECRET=your-conference-service-secret
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/conference-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/conference-realm/protocol/openid-connect/certs
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/actuator/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+
+  # Keynote Service
+  keynote-service:
+    build: ./keynote-service
+    container_name: keynote-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      conference-service:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT=8085
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discovery-service:8761/eureka
+      - KEYCLOAK_REALM=conference-realm
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth
+      - KEYCLOAK_RESOURCE=keynote-service
+      - KEYCLOAK_CREDENTIALS_SECRET=your-keynote-service-secret
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/conference-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/conference-realm/protocol/openid-connect/certs
+    networks:
+      - microservices-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+
+networks:
+  microservices-net:
+    driver: bridge
