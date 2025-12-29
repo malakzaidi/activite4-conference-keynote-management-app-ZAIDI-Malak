@@ -16,26 +16,15 @@
     <h2>{{ editingId ? 'Modifier' : 'Nouvelle' }} Conférence</h2>
     <form (ngSubmit)="saveConference()">
       <div class="form-group">
-        <label for="title">Titre *</label>
+        <label for="titre">Titre *</label>
         <input
           type="text"
-          id="title"
-          [(ngModel)]="newConference.title"
-          name="title"
+          id="titre"
+          [(ngModel)]="newConference.titre"
+          name="titre"
           class="form-control"
           placeholder="Titre de la conférence"
           required>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea
-          id="description"
-          [(ngModel)]="newConference.description"
-          name="description"
-          class="form-control"
-          placeholder="Description"
-          rows="3"></textarea>
       </div>
 
       <div class="form-row">
@@ -51,30 +40,45 @@
         </div>
 
         <div class="form-group">
-          <label for="location">Localisation</label>
-          <input
-            type="text"
-            id="location"
-            [(ngModel)]="newConference.location"
-            name="location"
-            class="form-control"
-            placeholder="Lieu">
+          <label for="type">Type de conférence</label>
+          <select
+            id="type"
+            [(ngModel)]="newConference.type"
+            name="type"
+            class="form-control">
+            <option value="">-- Sélectionner --</option>
+            <option value="WORKSHOP">Workshop</option>
+            <option value="SEMINAR">Séminaire</option>
+            <option value="CONFERENCE">Conférence</option>
+            <option value="KEYNOTE">Keynote</option>
+          </select>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="type">Type de conférence</label>
-        <select
-          id="type"
-          [(ngModel)]="newConference.typeConference"
-          name="typeConference"
-          class="form-control">
-          <option value="">-- Sélectionner --</option>
-          <option value="WORKSHOP">Workshop</option>
-          <option value="SEMINAR">Séminaire</option>
-          <option value="CONFERENCE">Conférence</option>
-          <option value="KEYNOTE">Keynote</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dureeMinutes">Durée (minutes)</label>
+          <input
+            type="number"
+            id="dureeMinutes"
+            [(ngModel)]="newConference.dureeMinutes"
+            name="dureeMinutes"
+            class="form-control"
+            placeholder="Durée en minutes"
+            min="0">
+        </div>
+
+        <div class="form-group">
+          <label for="nombreInscrits">Nombre d'inscrits</label>
+          <input
+            type="number"
+            id="nombreInscrits"
+            [(ngModel)]="newConference.nombreInscrits"
+            name="nombreInscrits"
+            class="form-control"
+            placeholder="Nombre d'inscrits"
+            min="0">
+        </div>
       </div>
 
       <div class="form-actions">
@@ -96,19 +100,20 @@
     <div class="conference-grid">
       <div class="conference-card" *ngFor="let conf of conferences">
         <div class="card-header">
-          <h3>{{ conf.title }}</h3>
-          <span class="badge">{{ conf.typeConference }}</span>
+          <h3>{{ conf.titre }}</h3>
+          <span class="badge">{{ conf.type }}</span>
         </div>
         <div class="card-body">
           <p><strong>Date:</strong> {{ conf.date }}</p>
-          <p *ngIf="conf.location"><strong>Lieu:</strong> {{ conf.location }}</p>
-          <p *ngIf="conf.description" class="description">{{ conf.description }}</p>
+          <p *ngIf="conf.dureeMinutes"><strong>Durée:</strong> {{ conf.dureeMinutes }} minutes</p>
+          <p *ngIf="conf.nombreInscrits"><strong>Inscrits:</strong> {{ conf.nombreInscrits }}</p>
+          <p *ngIf="conf.score"><strong>Score:</strong> {{ conf.score }}</p>
         </div>
         <div class="card-footer">
           <button class="btn btn-sm btn-warning" (click)="editConference(conf)">
             Modifier
           </button>
-          <button class="btn btn-sm btn-danger" (click)="deleteConference(conf.id || 0)">
+          <button class="btn btn-sm btn-danger" (click)="deleteConference(conf.id || '')">
             Supprimer
           </button>
         </div>

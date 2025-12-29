@@ -16,61 +16,49 @@
     <h2>{{ editingId ? 'Modifier' : 'Nouvelle' }} Keynote</h2>
     <form (ngSubmit)="saveKeynote()">
       <div class="form-group">
-        <label for="title">Titre *</label>
+        <label for="nom">Nom *</label>
         <input
           type="text"
-          id="title"
-          [(ngModel)]="newKeynote.title"
-          name="title"
+          id="nom"
+          [(ngModel)]="newKeynote.nom"
+          name="nom"
           class="form-control"
-          placeholder="Titre de la keynote"
+          placeholder="Nom de famille"
           required>
       </div>
 
       <div class="form-group">
-        <label for="speaker">Présentateur *</label>
+        <label for="prenom">Prénom *</label>
         <input
           type="text"
-          id="speaker"
-          [(ngModel)]="newKeynote.speaker"
-          name="speaker"
+          id="prenom"
+          [(ngModel)]="newKeynote.prenom"
+          name="prenom"
           class="form-control"
-          placeholder="Nom du présentateur"
+          placeholder="Prénom"
           required>
       </div>
 
       <div class="form-group">
-        <label for="description">Description</label>
-        <textarea
-          id="description"
-          [(ngModel)]="newKeynote.description"
-          name="description"
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="newKeynote.email"
+          name="email"
           class="form-control"
-          placeholder="Description"
-          rows="3"></textarea>
+          placeholder="Email">
       </div>
 
       <div class="form-group">
-        <label for="duration">Durée (minutes)</label>
+        <label for="fonction">Fonction</label>
         <input
-          type="number"
-          id="duration"
-          [(ngModel)]="newKeynote.duration"
-          name="duration"
+          type="text"
+          id="fonction"
+          [(ngModel)]="newKeynote.fonction"
+          name="fonction"
           class="form-control"
-          min="0"
-          placeholder="Durée en minutes">
-      </div>
-
-      <div class="form-group">
-        <label for="conferenceId">ID Conférence</label>
-        <input
-          type="number"
-          id="conferenceId"
-          [(ngModel)]="newKeynote.conferenceId"
-          name="conferenceId"
-          class="form-control"
-          placeholder="ID de la conférence associée">
+          placeholder="Fonction/Titre">
       </div>
 
       <div class="form-actions">
@@ -92,19 +80,17 @@
     <div class="keynote-grid">
       <div class="keynote-card" *ngFor="let key of keynotes">
         <div class="card-header">
-          <h3>{{ key.title }}</h3>
+          <h3>{{ key.nom }} {{ key.prenom }}</h3>
         </div>
         <div class="card-body">
-          <p><strong>Présentateur:</strong> {{ key.speaker }}</p>
-          <p *ngIf="key.duration"><strong>Durée:</strong> {{ key.duration }} minutes</p>
-          <p *ngIf="key.conferenceId"><strong>Conférence ID:</strong> {{ key.conferenceId }}</p>
-          <p *ngIf="key.description" class="description">{{ key.description }}</p>
+          <p><strong>Email:</strong> {{ key.email }}</p>
+          <p *ngIf="key.fonction"><strong>Fonction:</strong> {{ key.fonction }}</p>
         </div>
         <div class="card-footer">
           <button class="btn btn-sm btn-warning" (click)="editKeynote(key)">
             Modifier
           </button>
-          <button class="btn btn-sm btn-danger" (click)="deleteKeynote(key.id || 0)">
+          <button class="btn btn-sm btn-danger" (click)="deleteKeynote(key.id || '')">
             Supprimer
           </button>
         </div>

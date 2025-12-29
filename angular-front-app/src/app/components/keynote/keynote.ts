@@ -14,14 +14,13 @@ import { Keynote } from '../../models/keynote.model';
 export class KeynoteComponent implements OnInit {
   keynotes: Keynote[] = [];
   newKeynote: Keynote = {
-    title: '',
-    speaker: '',
-    duration: 0,
-    description: '',
-    conferenceId: undefined
+    nom: '',
+    prenom: '',
+    email: '',
+    fonction: ''
   };
   showForm = false;
-  editingId: number | null = null;
+  editingId: string | null = null;
   loading = false;
   error = '';
 
@@ -56,17 +55,16 @@ export class KeynoteComponent implements OnInit {
 
   resetForm(): void {
     this.newKeynote = {
-      title: '',
-      speaker: '',
-      duration: 0,
-      description: '',
-      conferenceId: undefined
+      nom: '',
+      prenom: '',
+      email: '',
+      fonction: ''
     };
     this.editingId = null;
   }
 
   saveKeynote(): void {
-    if (!this.newKeynote.title || !this.newKeynote.speaker) {
+    if (!this.newKeynote.nom || !this.newKeynote.prenom) {
       this.error = 'Veuillez remplir les champs obligatoires';
       return;
     }
@@ -106,7 +104,7 @@ export class KeynoteComponent implements OnInit {
     this.showForm = true;
   }
 
-  deleteKeynote(id: number): void {
+  deleteKeynote(id: string): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette keynote ?')) {
       this.keynoteService.deleteKeynote(id).subscribe({
         next: () => {

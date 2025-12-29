@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/conferences")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
 public class ConferenceController {
 
     private final ConferenceService service;
@@ -50,6 +51,4 @@ public class ConferenceController {
     public ResponseEntity<List<ConferenceDTO>> getConferencesByKeynote(@PathVariable UUID keynoteId) {
         return ResponseEntity.ok(service.getConferencesByKeynote(keynoteId));
     }
-
-
 }

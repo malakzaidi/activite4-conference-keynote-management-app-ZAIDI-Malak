@@ -1,18 +1,20 @@
 export interface Conference {
-  id?: number;
-  title: string;
-  description: string;
+  id?: string;
+  titre: string;
+  type: string;
   date: string;
-  location: string;
-  typeConference: string;
-  keynotes?: Keynote[];
+  dureeMinutes: number;
+  nombreInscrits: number;
+  score?: number;
+  keynoteId?: string;
+  keynote?: any;
+  reviews?: any[];
 }
 
 export interface Keynote {
-  id?: number;
-  title: string;
-  speaker: string;
-  duration: number;
-  description: string;
-  conferenceId?: number;
+  id?: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  fonction: string;
 }

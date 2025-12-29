@@ -14,14 +14,14 @@ import { Conference } from '../../models/conference.model';
 export class ConferenceComponent implements OnInit {
   conferences: Conference[] = [];
   newConference: Conference = {
-    title: '',
-    description: '',
+    titre: '',
+    type: '',
     date: '',
-    location: '',
-    typeConference: ''
+    dureeMinutes: 0,
+    nombreInscrits: 0
   };
   showForm = false;
-  editingId: number | null = null;
+  editingId: string | null = null;
   loading = false;
   error = '';
 
@@ -56,17 +56,17 @@ export class ConferenceComponent implements OnInit {
 
   resetForm(): void {
     this.newConference = {
-      title: '',
-      description: '',
+      titre: '',
+      type: '',
       date: '',
-      location: '',
-      typeConference: ''
+      dureeMinutes: 0,
+      nombreInscrits: 0
     };
     this.editingId = null;
   }
 
   saveConference(): void {
-    if (!this.newConference.title || !this.newConference.date) {
+    if (!this.newConference.titre || !this.newConference.date) {
       this.error = 'Veuillez remplir les champs obligatoires';
       return;
     }
@@ -106,7 +106,7 @@ export class ConferenceComponent implements OnInit {
     this.showForm = true;
   }
 
-  deleteConference(id: number): void {
+  deleteConference(id: string): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette conférence ?')) {
       this.conferenceService.deleteConference(id).subscribe({
         next: () => {

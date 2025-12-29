@@ -11,45 +11,46 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/keynotes")
-public class KeynoteController {
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
+public class keynoteController {
 
-        private final KeynoteService keynoteService;
+    private final KeynoteService keynoteService;
 
-        public KeynoteController(KeynoteService keynoteService) {
-            this.keynoteService = keynoteService;
-        }
-
-        // GET all keynotes
-        @GetMapping
-        public ResponseEntity<List<KeynoteDTO>> getAllKeynotes() {
-            return ResponseEntity.ok(keynoteService.findAll());
-        }
-
-        //  GET keynote by ID
-        @GetMapping("/{id}")
-        public ResponseEntity<KeynoteDTO> getKeynoteById(@PathVariable UUID id) {
-            return ResponseEntity.ok(keynoteService.findById(id));
-        }
-
-        //  CREATE a new keynote
-        @PostMapping
-        public ResponseEntity<KeynoteDTO> createKeynote(@RequestBody KeynoteDTO keynoteDTO) {
-            return ResponseEntity.ok(keynoteService.create(keynoteDTO));
-        }
-
-        //  UPDATE a keynote
-        @PutMapping("/{id}")
-        public ResponseEntity<KeynoteDTO> updateKeynote(@PathVariable UUID id, @RequestBody KeynoteDTO keynoteDTO) {
-            return ResponseEntity.ok(keynoteService.update(id, keynoteDTO));
-        }
-
-        //  DELETE a keynote
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteKeynote(@PathVariable UUID id) {
-            keynoteService.delete(id);
-            return ResponseEntity.noContent().build();
-        }
+    public keynoteController(KeynoteService keynoteService) {
+        this.keynoteService = keynoteService;
     }
+
+    // GET all keynotes
+    @GetMapping
+    public ResponseEntity<List<KeynoteDTO>> getAllKeynotes() {
+        return ResponseEntity.ok(keynoteService.findAll());
+    }
+
+    //  GET keynote by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<KeynoteDTO> getKeynoteById(@PathVariable UUID id) {
+        return ResponseEntity.ok(keynoteService.findById(id));
+    }
+
+    //  CREATE a new keynote
+    @PostMapping
+    public ResponseEntity<KeynoteDTO> createKeynote(@RequestBody KeynoteDTO keynoteDTO) {
+        return ResponseEntity.ok(keynoteService.create(keynoteDTO));
+    }
+
+    //  UPDATE a keynote
+    @PutMapping("/{id}")
+    public ResponseEntity<KeynoteDTO> updateKeynote(@PathVariable UUID id, @RequestBody KeynoteDTO keynoteDTO) {
+        return ResponseEntity.ok(keynoteService.update(id, keynoteDTO));
+    }
+
+    //  DELETE a keynote
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteKeynote(@PathVariable UUID id) {
+        keynoteService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
 
 
 
