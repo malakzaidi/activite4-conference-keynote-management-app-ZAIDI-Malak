@@ -1,6 +1,6 @@
 Architecture de l'activité :
 
-<img width="1034" height="645" alt="image" src="https://github.com/user-attachments/assets/a3bc5c95-1849-40ba-a9d6-af0ca37165e2" />
+<img width="1031" height="698" alt="image" src="https://github.com/user-attachments/assets/b78427c8-011e-45ac-ae0f-4cfb6bfb229b" />
 
 
 Gestion des conférences :
